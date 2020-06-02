@@ -1,20 +1,25 @@
-FROM alpine:3.9
-MAINTAINER Adrian Dvergsdal [atmoz.net]
-
-# - Install packages
-# - Fix default group (1000 does not exist)
-# - OpenSSH needs /var/run/sshd to run
-# - Remove generic host keys, entrypoint generates unique keys
-RUN echo "@community http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk add --no-cache bash shadow@community openssh openssh-sftp-server && \
-    sed -i 's/GROUP=1000/GROUP=100/' /etc/default/useradd && \
-    mkdir -p /var/run/sshd && \
-    rm -f /etc/ssh/ssh_host_*key*
-
+FROM debian:9.5
+ 
+ARG SSH_MASTER_USER
+ARG SSH_MASTER_PASS
+ 
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+    nano \
+    sudo \
+    openssh-server
+ 
+COPY ssh_config /etc/ssh/ssh_config
 COPY sshd_config /etc/ssh/sshd_config
-COPY entrypoint /
-COPY README.md /
-
-EXPOSE 22
-
-ENTRYPOINT ["/entrypoint"]
+ 
+COPY user.sh /usr/local/bin/user.sh
+RUN chmod +x /usr/local/bin/user.sh
+RUN /usr/local/bin/user.sh
+RUN rm /usr/local/bin/user.sh
+ 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ 
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ 
+CMD tail -f /dev/null
