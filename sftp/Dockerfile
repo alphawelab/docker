@@ -1,7 +1,7 @@
 FROM debian:9.5
  
-ARG SSH_MASTER_USER
-ARG SSH_MASTER_PASS
+ARG SSH_MASTER_USER=master
+ARG SSH_MASTER_PASS=master
  
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
