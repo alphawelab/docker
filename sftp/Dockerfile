@@ -1,4 +1,4 @@
-FROM debian:9.5
+FROM debian:10-slim
  
 ARG SSH_MASTER_USER=master
 ARG SSH_MASTER_PASS=master
