@@ -14,6 +14,10 @@ printf "\n\033[0;44m---> Starting the SSH server.\033[0m\n"
         ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
     fi
 
+
+echo "\nCreate SSH User\n"
+sh /usr/local/bin/user.sh
+
 service ssh start
 service ssh status
 

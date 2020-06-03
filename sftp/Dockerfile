@@ -14,8 +14,6 @@ COPY sshd_config /etc/ssh/sshd_config
  
 COPY user.sh /usr/local/bin/user.sh
 RUN chmod +x /usr/local/bin/user.sh
-RUN /usr/local/bin/user.sh
-RUN rm /usr/local/bin/user.sh
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
