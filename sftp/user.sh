@@ -13,7 +13,17 @@ echo "${SSH_MASTER_USER} ALL=NOPASSWD:/bin/chown" >> /etc/sudoers
 echo "${SSH_MASTER_USER} ALL=NOPASSWD:/usr/sbin/useradd" >> /etc/sudoers
 echo "${SSH_MASTER_USER} ALL=NOPASSWD:/usr/sbin/deluser" >> /etc/sudoers
 echo "${SSH_MASTER_USER} ALL=NOPASSWD:/usr/sbin/chpasswd" >> /etc/sudoers
- 
+
 addgroup sftp
- 
+
+
+# Add SSH keys to authorized_keys with valid permissions
+if [ -d "/home/${SSH_MASTER_USER}/.ssh/keys" ]; then
+    for RSA_PUB_KEY in "/home/${SSH_MASTER_USER}/.ssh/keys"/*; do
+        cat "$RSA_PUB_KEY" >> "/home/${SSH_MASTER_USER}/.ssh/authorized_keys"
+    done
+    chown "${SSH_MASTER_USER}:sftp" "/home/${SSH_MASTER_USER}/.ssh/authorized_keys"
+    chmod 600 "/home/${SSH_MASTER_USER}/.ssh/authorized_keys"
+fi
+
 exec "$@"
