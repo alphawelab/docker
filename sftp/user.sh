@@ -23,5 +23,4 @@ echo "$RSA_PUB_KEY" >> "/home/${SSH_MASTER_USER}/.ssh/authorized_keys"
 chown "${SSH_MASTER_USER}:sftp" "/home/${SSH_MASTER_USER}/.ssh/authorized_keys"
 chmod 600 "/home/${SSH_MASTER_USER}/.ssh/authorized_keys"
 
-
 exec "$@"
