@@ -5,10 +5,11 @@ X11Forwarding no
 AllowTcpForwarding no
 AllowAgentForwarding no
 PermitTunnel no
+LogLevel INFO
 
 Subsystem sftp internal-sftp
 Match Group sftp
-    ChrootDirectory %h
+    ChrootDirectory /opt/%u
     X11Forwarding no
     AllowTcpForwarding no
     AllowAgentForwarding no
